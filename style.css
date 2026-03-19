@@ -1,0 +1,501 @@
+:root {
+    --bg: #FFF8F0;
+    --card: #FFFFFF;
+    --orange: #FF6B35;
+    --orange-light: #FFE0D0;
+    --yellow: #FFD166;
+    --green: #06D6A0;
+    --blue: #118AB2;
+    --red: #EF476F;
+    --purple: #845EC2;
+    --dark: #2D2D2D;
+    --muted: #888;
+    --border: #F0E6D6;
+    --flame-low: #3B82F6;
+    --flame-mid: #F97316;
+    --flame-high: #EF4444;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--bg);
+    font-family: 'Nunito', sans-serif;
+    color: var(--dark);
+    min-height: 100vh;
+    background-image: radial-gradient(circle at 20% 20%, #FFE0D0 0%, transparent 50%),
+                      radial-gradient(circle at 80% 80%, #D0F0E8 0%, transparent 50%);
+  }
+
+  .app {
+    max-width: 480px;
+    margin: 0 auto;
+    padding: 0 16px 80px;
+  }
+
+  /* Header */
+  .header {
+    text-align: center;
+    padding: 32px 0 16px;
+  }
+
+  .header h1 {
+    font-family: 'Fredoka One', cursive;
+    font-size: 48px;
+    color: var(--orange);
+    letter-spacing: -1px;
+    line-height: 1;
+  }
+
+  .header p {
+    font-size: 15px;
+    color: var(--muted);
+    margin-top: 6px;
+    font-weight: 600;
+  }
+
+  /* Progress bar */
+  .progress-wrap {
+    display: flex;
+    gap: 6px;
+    margin: 20px 0;
+    align-items: center;
+  }
+
+  .progress-dot {
+    height: 8px;
+    border-radius: 4px;
+    flex: 1;
+    background: var(--border);
+    transition: background 0.4s, flex 0.4s;
+  }
+
+  .progress-dot.active { background: var(--orange); flex: 2; }
+  .progress-dot.done { background: var(--green); }
+
+  /* Screen */
+  .screen { display: none; animation: fadeUp 0.4s ease; }
+  .screen.active { display: block; }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(16px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* Card */
+  .card {
+    background: var(--card);
+    border-radius: 24px;
+    padding: 24px;
+    margin-bottom: 16px;
+    box-shadow: 0 4px 24px rgba(0,0,0,0.06);
+    border: 2px solid var(--border);
+  }
+
+  .screen-title {
+    font-family: 'Fredoka One', cursive;
+    font-size: 26px;
+    color: var(--dark);
+    margin-bottom: 6px;
+    line-height: 1.2;
+  }
+
+  .screen-sub {
+    font-size: 13px;
+    color: var(--muted);
+    font-weight: 600;
+    margin-bottom: 20px;
+  }
+
+  /* Option buttons */
+  .options { display: flex; flex-direction: column; gap: 10px; }
+
+  .option-btn {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 14px 18px;
+    border-radius: 16px;
+    border: 2.5px solid var(--border);
+    background: white;
+    cursor: pointer;
+    transition: all 0.2s;
+    text-align: left;
+    font-family: 'Nunito', sans-serif;
+    font-size: 15px;
+    font-weight: 700;
+    color: var(--dark);
+  }
+
+  .option-btn:hover { border-color: var(--orange); transform: translateY(-2px); box-shadow: 0 4px 16px rgba(255,107,53,0.15); }
+  .option-btn.selected { border-color: var(--orange); background: var(--orange-light); }
+
+  .option-emoji { font-size: 28px; flex-shrink: 0; }
+
+  .option-text { flex: 1; }
+  .option-label { font-weight: 800; font-size: 15px; }
+  .option-hint { font-size: 12px; color: var(--muted); font-weight: 600; margin-top: 2px; }
+
+  /* Grid options */
+  .options-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+
+  .option-card {
+    border: 2.5px solid var(--border);
+    border-radius: 20px;
+    padding: 16px 12px;
+    cursor: pointer;
+    transition: all 0.2s;
+    text-align: center;
+    background: white;
+  }
+
+  .option-card:hover { border-color: var(--orange); transform: translateY(-2px); box-shadow: 0 4px 16px rgba(255,107,53,0.15); }
+  .option-card.selected { border-color: var(--orange); background: var(--orange-light); }
+  .option-card .big-emoji { font-size: 40px; display: block; margin-bottom: 8px; }
+  .option-card .card-label { font-weight: 800; font-size: 14px; }
+  .option-card .card-hint { font-size: 11px; color: var(--muted); font-weight: 600; margin-top: 3px; }
+
+  /* Rice visual cards */
+  .rice-card {
+    border: 2.5px solid var(--border);
+    border-radius: 20px;
+    padding: 14px;
+    cursor: pointer;
+    transition: all 0.2s;
+    background: white;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .rice-card:hover { border-color: var(--orange); transform: translateY(-2px); }
+  .rice-card.selected { border-color: var(--orange); background: var(--orange-light); }
+
+  .rice-visual {
+    width: 52px;
+    height: 52px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 28px;
+    flex-shrink: 0;
+  }
+
+  /* SVG Rice grain visual */
+  .rice-grains-svg { width: 52px; height: 52px; }
+
+  /* Next button */
+  .next-btn {
+    width: 100%;
+    padding: 16px;
+    background: var(--orange);
+    color: white;
+    border: none;
+    border-radius: 16px;
+    font-family: 'Fredoka One', cursive;
+    font-size: 20px;
+    cursor: pointer;
+    transition: all 0.2s;
+    margin-top: 8px;
+    letter-spacing: 0.5px;
+    box-shadow: 0 4px 16px rgba(255,107,53,0.35);
+  }
+
+  .next-btn:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(255,107,53,0.4); }
+  .next-btn:disabled { background: var(--border); color: var(--muted); box-shadow: none; transform: none; cursor: not-allowed; }
+
+  .back-btn {
+    background: none;
+    border: none;
+    color: var(--muted);
+    font-family: 'Nunito', sans-serif;
+    font-size: 14px;
+    font-weight: 700;
+    cursor: pointer;
+    padding: 8px 0;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    margin-bottom: 12px;
+  }
+
+  /* ===== WATER METHODS ===== */
+  .water-methods { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 16px; }
+
+  .water-method-card {
+    border: 2.5px solid var(--border);
+    border-radius: 20px;
+    padding: 16px 12px;
+    cursor: pointer;
+    transition: all 0.2s;
+    text-align: center;
+    background: white;
+  }
+
+  .water-method-card:hover { border-color: var(--blue); transform: translateY(-2px); }
+  .water-method-card.selected { border-color: var(--blue); background: #E8F4F8; }
+  .water-method-card h4 { font-weight: 800; font-size: 13px; margin-top: 8px; }
+  .water-method-card p { font-size: 11px; color: var(--muted); font-weight: 600; margin-top: 3px; }
+
+  /* Finger method illustration */
+  .finger-illustration {
+    position: relative;
+    width: 80px;
+    height: 80px;
+    margin: 0 auto;
+  }
+
+  /* Katori illustration */
+  .katori-illustration {
+    position: relative;
+    width: 80px;
+    height: 80px;
+    margin: 0 auto;
+  }
+
+  .water-instruction {
+    background: #E8F4F8;
+    border-radius: 16px;
+    padding: 16px;
+    margin-top: 12px;
+    border: 2px solid #BDE0EC;
+  }
+
+  .water-instruction h4 { font-weight: 800; font-size: 15px; color: var(--blue); margin-bottom: 6px; }
+  .water-instruction p { font-size: 13px; font-weight: 600; line-height: 1.6; }
+  .water-instruction .why { font-size: 12px; color: var(--muted); margin-top: 8px; font-style: italic; }
+
+  /* ===== FLAME VISUALIZER ===== */
+  .flame-section {
+    text-align: center;
+    padding: 16px 0;
+  }
+
+  .stove-visual {
+    position: relative;
+    width: 200px;
+    height: 200px;
+    margin: 0 auto 16px;
+  }
+
+  /* Flame SVG animations */
+  .flame-container {
+    position: absolute;
+    bottom: 60px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 4px;
+    align-items: flex-end;
+  }
+
+  .flame {
+    border-radius: 50% 50% 20% 20%;
+    transform-origin: bottom center;
+    animation: flicker 0.5s ease-in-out infinite alternate;
+  }
+
+  @keyframes flicker {
+    0% { transform: scaleY(1) scaleX(1) rotate(-2deg); }
+    100% { transform: scaleY(1.1) scaleX(0.95) rotate(2deg); }
+  }
+
+  @keyframes flicker2 {
+    0% { transform: scaleY(0.95) scaleX(1) rotate(2deg); }
+    100% { transform: scaleY(1.05) scaleX(0.9) rotate(-2deg); }
+  }
+
+  @keyframes flicker3 {
+    0% { transform: scaleY(1.05) scaleX(1) rotate(0deg); }
+    100% { transform: scaleY(0.9) scaleX(1.05) rotate(-3deg); }
+  }
+
+  .flame-label {
+    display: inline-block;
+    padding: 6px 20px;
+    border-radius: 20px;
+    font-family: 'Fredoka One', cursive;
+    font-size: 18px;
+    letter-spacing: 1px;
+    margin-bottom: 12px;
+  }
+
+  .flame-low .flame-label { background: #DBEAFE; color: var(--flame-low); }
+  .flame-mid .flame-label { background: #FFEDD5; color: var(--flame-mid); }
+  .flame-high .flame-label { background: #FEE2E2; color: var(--flame-high); }
+
+  /* ===== COOKING STEPS ===== */
+  .step-card {
+    background: white;
+    border-radius: 24px;
+    padding: 24px;
+    border: 2px solid var(--border);
+    box-shadow: 0 4px 24px rgba(0,0,0,0.06);
+    margin-bottom: 16px;
+    text-align: center;
+  }
+
+  .step-number {
+    font-family: 'Fredoka One', cursive;
+    font-size: 13px;
+    color: var(--muted);
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    margin-bottom: 8px;
+  }
+
+  .step-title {
+    font-family: 'Fredoka One', cursive;
+    font-size: 24px;
+    color: var(--dark);
+    margin-bottom: 12px;
+  }
+
+  .step-desc {
+    font-size: 14px;
+    font-weight: 600;
+    color: #555;
+    line-height: 1.7;
+    margin-bottom: 16px;
+  }
+
+  .warning-box {
+    background: #FFF3CD;
+    border: 2px solid #FFD166;
+    border-radius: 12px;
+    padding: 10px 14px;
+    font-size: 13px;
+    font-weight: 700;
+    color: #856404;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    text-align: left;
+    margin-top: 12px;
+  }
+
+  /* ===== TIMER ===== */
+  .timer-display {
+    font-family: 'Fredoka One', cursive;
+    font-size: 72px;
+    color: var(--orange);
+    line-height: 1;
+    margin: 8px 0;
+  }
+
+  .timer-label {
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 2px;
+  }
+
+  .timer-controls { display: flex; gap: 10px; margin-top: 16px; }
+
+  .timer-btn {
+    flex: 1;
+    padding: 12px;
+    border-radius: 14px;
+    border: 2.5px solid var(--orange);
+    font-family: 'Fredoka One', cursive;
+    font-size: 16px;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+
+  .timer-btn.primary { background: var(--orange); color: white; }
+  .timer-btn.secondary { background: white; color: var(--orange); }
+  .timer-btn:hover { transform: translateY(-2px); }
+
+  /* ===== SUCCESS ===== */
+  .success-screen { text-align: center; padding: 20px 0; }
+  .success-emoji { font-size: 80px; display: block; animation: bounce 0.6s ease infinite alternate; }
+
+  @keyframes bounce {
+    from { transform: translateY(0); }
+    to { transform: translateY(-10px); }
+  }
+
+  .success-title {
+    font-family: 'Fredoka One', cursive;
+    font-size: 36px;
+    color: var(--green);
+    margin: 16px 0 8px;
+  }
+
+  .success-sub { font-size: 15px; color: var(--muted); font-weight: 600; }
+
+  .tip-box {
+    background: #F0FDF4;
+    border: 2px solid var(--green);
+    border-radius: 16px;
+    padding: 16px;
+    margin: 20px 0;
+    text-align: left;
+  }
+
+  .tip-box h4 { font-weight: 800; color: var(--green); font-size: 14px; margin-bottom: 6px; }
+  .tip-box p { font-size: 13px; font-weight: 600; color: #444; line-height: 1.6; }
+
+  .restart-btn {
+    width: 100%;
+    padding: 16px;
+    background: var(--dark);
+    color: white;
+    border: none;
+    border-radius: 16px;
+    font-family: 'Fredoka One', cursive;
+    font-size: 20px;
+    cursor: pointer;
+    transition: all 0.2s;
+    margin-top: 8px;
+  }
+
+  .restart-btn:hover { transform: translateY(-2px); background: #444; }
+
+  /* Rinse indicator */
+  .rinse-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 8px 16px;
+    border-radius: 20px;
+    font-size: 13px;
+    font-weight: 800;
+    margin-top: 12px;
+  }
+
+  .rinse-yes { background: #DCFCE7; color: #15803D; }
+  .rinse-skip { background: #FEF9C3; color: #854D0E; }
+
+  /* Summary bar */
+  .summary-bar {
+    background: white;
+    border-radius: 16px;
+    padding: 14px 18px;
+    border: 2px solid var(--border);
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+    margin-bottom: 16px;
+    font-size: 13px;
+    font-weight: 700;
+  }
+
+  .summary-item { display: flex; align-items: center; gap: 5px; }
+  .summary-item span:first-child { font-size: 16px; }
+
+  /* Pot animation */
+  @keyframes steam {
+    0% { opacity: 0; transform: translateY(0) scaleX(1); }
+    50% { opacity: 0.6; transform: translateY(-8px) scaleX(1.1); }
+    100% { opacity: 0; transform: translateY(-16px) scaleX(0.8); }
+  }
+
+  .steam-puff {
+    animation: steam 2s ease-in-out infinite;
+  }
+  .steam-puff:nth-child(2) { animation-delay: 0.6s; }
+  .steam-puff:nth-child(3) { animation-delay: 1.2s; }
