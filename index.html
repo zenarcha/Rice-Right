@@ -1,0 +1,1516 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Rice, Right! 🍚</title>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Fredoka+One&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #FFF8F0;
+    --card: #FFFFFF;
+    --orange: #FF6B35;
+    --orange-light: #FFE0D0;
+    --yellow: #FFD166;
+    --green: #06D6A0;
+    --blue: #118AB2;
+    --red: #EF476F;
+    --purple: #845EC2;
+    --dark: #2D2D2D;
+    --muted: #888;
+    --border: #F0E6D6;
+    --flame-low: #3B82F6;
+    --flame-mid: #F97316;
+    --flame-high: #EF4444;
+  }
+
+- { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+background: var(–bg);
+font-family: ‘Nunito’, sans-serif;
+color: var(–dark);
+min-height: 100vh;
+background-image: radial-gradient(circle at 20% 20%, #FFE0D0 0%, transparent 50%),
+radial-gradient(circle at 80% 80%, #D0F0E8 0%, transparent 50%);
+}
+
+.app {
+max-width: 480px;
+margin: 0 auto;
+padding: 0 16px 80px;
+}
+
+/* Header */
+.header {
+text-align: center;
+padding: 32px 0 16px;
+}
+
+.header h1 {
+font-family: ‘Fredoka One’, cursive;
+font-size: 48px;
+color: var(–orange);
+letter-spacing: -1px;
+line-height: 1;
+}
+
+.header p {
+font-size: 15px;
+color: var(–muted);
+margin-top: 6px;
+font-weight: 600;
+}
+
+/* Progress bar */
+.progress-wrap {
+display: flex;
+gap: 6px;
+margin: 20px 0;
+align-items: center;
+}
+
+.progress-dot {
+height: 8px;
+border-radius: 4px;
+flex: 1;
+background: var(–border);
+transition: background 0.4s, flex 0.4s;
+}
+
+.progress-dot.active { background: var(–orange); flex: 2; }
+.progress-dot.done { background: var(–green); }
+
+/* Screen */
+.screen { display: none; animation: fadeUp 0.4s ease; }
+.screen.active { display: block; }
+
+@keyframes fadeUp {
+from { opacity: 0; transform: translateY(16px); }
+to { opacity: 1; transform: translateY(0); }
+}
+
+/* Card */
+.card {
+background: var(–card);
+border-radius: 24px;
+padding: 24px;
+margin-bottom: 16px;
+box-shadow: 0 4px 24px rgba(0,0,0,0.06);
+border: 2px solid var(–border);
+}
+
+.screen-title {
+font-family: ‘Fredoka One’, cursive;
+font-size: 26px;
+color: var(–dark);
+margin-bottom: 6px;
+line-height: 1.2;
+}
+
+.screen-sub {
+font-size: 13px;
+color: var(–muted);
+font-weight: 600;
+margin-bottom: 20px;
+}
+
+/* Option buttons */
+.options { display: flex; flex-direction: column; gap: 10px; }
+
+.option-btn {
+display: flex;
+align-items: center;
+gap: 14px;
+padding: 14px 18px;
+border-radius: 16px;
+border: 2.5px solid var(–border);
+background: white;
+cursor: pointer;
+transition: all 0.2s;
+text-align: left;
+font-family: ‘Nunito’, sans-serif;
+font-size: 15px;
+font-weight: 700;
+color: var(–dark);
+}
+
+.option-btn:hover { border-color: var(–orange); transform: translateY(-2px); box-shadow: 0 4px 16px rgba(255,107,53,0.15); }
+.option-btn.selected { border-color: var(–orange); background: var(–orange-light); }
+
+.option-emoji { font-size: 28px; flex-shrink: 0; }
+
+.option-text { flex: 1; }
+.option-label { font-weight: 800; font-size: 15px; }
+.option-hint { font-size: 12px; color: var(–muted); font-weight: 600; margin-top: 2px; }
+
+/* Grid options */
+.options-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+
+.option-card {
+border: 2.5px solid var(–border);
+border-radius: 20px;
+padding: 16px 12px;
+cursor: pointer;
+transition: all 0.2s;
+text-align: center;
+background: white;
+}
+
+.option-card:hover { border-color: var(–orange); transform: translateY(-2px); box-shadow: 0 4px 16px rgba(255,107,53,0.15); }
+.option-card.selected { border-color: var(–orange); background: var(–orange-light); }
+.option-card .big-emoji { font-size: 40px; display: block; margin-bottom: 8px; }
+.option-card .card-label { font-weight: 800; font-size: 14px; }
+.option-card .card-hint { font-size: 11px; color: var(–muted); font-weight: 600; margin-top: 3px; }
+
+/* Rice visual cards */
+.rice-card {
+border: 2.5px solid var(–border);
+border-radius: 20px;
+padding: 14px;
+cursor: pointer;
+transition: all 0.2s;
+background: white;
+display: flex;
+align-items: center;
+gap: 12px;
+}
+
+.rice-card:hover { border-color: var(–orange); transform: translateY(-2px); }
+.rice-card.selected { border-color: var(–orange); background: var(–orange-light); }
+
+.rice-visual {
+width: 52px;
+height: 52px;
+border-radius: 12px;
+display: flex;
+align-items: center;
+justify-content: center;
+font-size: 28px;
+flex-shrink: 0;
+}
+
+/* SVG Rice grain visual */
+.rice-grains-svg { width: 52px; height: 52px; }
+
+/* Next button */
+.next-btn {
+width: 100%;
+padding: 16px;
+background: var(–orange);
+color: white;
+border: none;
+border-radius: 16px;
+font-family: ‘Fredoka One’, cursive;
+font-size: 20px;
+cursor: pointer;
+transition: all 0.2s;
+margin-top: 8px;
+letter-spacing: 0.5px;
+box-shadow: 0 4px 16px rgba(255,107,53,0.35);
+}
+
+.next-btn:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(255,107,53,0.4); }
+.next-btn:disabled { background: var(–border); color: var(–muted); box-shadow: none; transform: none; cursor: not-allowed; }
+
+.back-btn {
+background: none;
+border: none;
+color: var(–muted);
+font-family: ‘Nunito’, sans-serif;
+font-size: 14px;
+font-weight: 700;
+cursor: pointer;
+padding: 8px 0;
+display: flex;
+align-items: center;
+gap: 4px;
+margin-bottom: 12px;
+}
+
+/* ===== WATER METHODS ===== */
+.water-methods { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 16px; }
+
+.water-method-card {
+border: 2.5px solid var(–border);
+border-radius: 20px;
+padding: 16px 12px;
+cursor: pointer;
+transition: all 0.2s;
+text-align: center;
+background: white;
+}
+
+.water-method-card:hover { border-color: var(–blue); transform: translateY(-2px); }
+.water-method-card.selected { border-color: var(–blue); background: #E8F4F8; }
+.water-method-card h4 { font-weight: 800; font-size: 13px; margin-top: 8px; }
+.water-method-card p { font-size: 11px; color: var(–muted); font-weight: 600; margin-top: 3px; }
+
+/* Finger method illustration */
+.finger-illustration {
+position: relative;
+width: 80px;
+height: 80px;
+margin: 0 auto;
+}
+
+/* Katori illustration */
+.katori-illustration {
+position: relative;
+width: 80px;
+height: 80px;
+margin: 0 auto;
+}
+
+.water-instruction {
+background: #E8F4F8;
+border-radius: 16px;
+padding: 16px;
+margin-top: 12px;
+border: 2px solid #BDE0EC;
+}
+
+.water-instruction h4 { font-weight: 800; font-size: 15px; color: var(–blue); margin-bottom: 6px; }
+.water-instruction p { font-size: 13px; font-weight: 600; line-height: 1.6; }
+.water-instruction .why { font-size: 12px; color: var(–muted); margin-top: 8px; font-style: italic; }
+
+/* ===== FLAME VISUALIZER ===== */
+.flame-section {
+text-align: center;
+padding: 16px 0;
+}
+
+.stove-visual {
+position: relative;
+width: 200px;
+height: 200px;
+margin: 0 auto 16px;
+}
+
+/* Flame SVG animations */
+.flame-container {
+position: absolute;
+bottom: 60px;
+left: 50%;
+transform: translateX(-50%);
+display: flex;
+gap: 4px;
+align-items: flex-end;
+}
+
+.flame {
+border-radius: 50% 50% 20% 20%;
+transform-origin: bottom center;
+animation: flicker 0.5s ease-in-out infinite alternate;
+}
+
+@keyframes flicker {
+0% { transform: scaleY(1) scaleX(1) rotate(-2deg); }
+100% { transform: scaleY(1.1) scaleX(0.95) rotate(2deg); }
+}
+
+@keyframes flicker2 {
+0% { transform: scaleY(0.95) scaleX(1) rotate(2deg); }
+100% { transform: scaleY(1.05) scaleX(0.9) rotate(-2deg); }
+}
+
+@keyframes flicker3 {
+0% { transform: scaleY(1.05) scaleX(1) rotate(0deg); }
+100% { transform: scaleY(0.9) scaleX(1.05) rotate(-3deg); }
+}
+
+.flame-label {
+display: inline-block;
+padding: 6px 20px;
+border-radius: 20px;
+font-family: ‘Fredoka One’, cursive;
+font-size: 18px;
+letter-spacing: 1px;
+margin-bottom: 12px;
+}
+
+.flame-low .flame-label { background: #DBEAFE; color: var(–flame-low); }
+.flame-mid .flame-label { background: #FFEDD5; color: var(–flame-mid); }
+.flame-high .flame-label { background: #FEE2E2; color: var(–flame-high); }
+
+/* ===== COOKING STEPS ===== */
+.step-card {
+background: white;
+border-radius: 24px;
+padding: 24px;
+border: 2px solid var(–border);
+box-shadow: 0 4px 24px rgba(0,0,0,0.06);
+margin-bottom: 16px;
+text-align: center;
+}
+
+.step-number {
+font-family: ‘Fredoka One’, cursive;
+font-size: 13px;
+color: var(–muted);
+letter-spacing: 2px;
+text-transform: uppercase;
+margin-bottom: 8px;
+}
+
+.step-title {
+font-family: ‘Fredoka One’, cursive;
+font-size: 24px;
+color: var(–dark);
+margin-bottom: 12px;
+}
+
+.step-desc {
+font-size: 14px;
+font-weight: 600;
+color: #555;
+line-height: 1.7;
+margin-bottom: 16px;
+}
+
+.warning-box {
+background: #FFF3CD;
+border: 2px solid #FFD166;
+border-radius: 12px;
+padding: 10px 14px;
+font-size: 13px;
+font-weight: 700;
+color: #856404;
+display: flex;
+align-items: center;
+gap: 8px;
+text-align: left;
+margin-top: 12px;
+}
+
+/* ===== TIMER ===== */
+.timer-display {
+font-family: ‘Fredoka One’, cursive;
+font-size: 72px;
+color: var(–orange);
+line-height: 1;
+margin: 8px 0;
+}
+
+.timer-label {
+font-size: 13px;
+font-weight: 700;
+color: var(–muted);
+text-transform: uppercase;
+letter-spacing: 2px;
+}
+
+.timer-controls { display: flex; gap: 10px; margin-top: 16px; }
+
+.timer-btn {
+flex: 1;
+padding: 12px;
+border-radius: 14px;
+border: 2.5px solid var(–orange);
+font-family: ‘Fredoka One’, cursive;
+font-size: 16px;
+cursor: pointer;
+transition: all 0.2s;
+}
+
+.timer-btn.primary { background: var(–orange); color: white; }
+.timer-btn.secondary { background: white; color: var(–orange); }
+.timer-btn:hover { transform: translateY(-2px); }
+
+/* ===== SUCCESS ===== */
+.success-screen { text-align: center; padding: 20px 0; }
+.success-emoji { font-size: 80px; display: block; animation: bounce 0.6s ease infinite alternate; }
+
+@keyframes bounce {
+from { transform: translateY(0); }
+to { transform: translateY(-10px); }
+}
+
+.success-title {
+font-family: ‘Fredoka One’, cursive;
+font-size: 36px;
+color: var(–green);
+margin: 16px 0 8px;
+}
+
+.success-sub { font-size: 15px; color: var(–muted); font-weight: 600; }
+
+.tip-box {
+background: #F0FDF4;
+border: 2px solid var(–green);
+border-radius: 16px;
+padding: 16px;
+margin: 20px 0;
+text-align: left;
+}
+
+.tip-box h4 { font-weight: 800; color: var(–green); font-size: 14px; margin-bottom: 6px; }
+.tip-box p { font-size: 13px; font-weight: 600; color: #444; line-height: 1.6; }
+
+.restart-btn {
+width: 100%;
+padding: 16px;
+background: var(–dark);
+color: white;
+border: none;
+border-radius: 16px;
+font-family: ‘Fredoka One’, cursive;
+font-size: 20px;
+cursor: pointer;
+transition: all 0.2s;
+margin-top: 8px;
+}
+
+.restart-btn:hover { transform: translateY(-2px); background: #444; }
+
+/* Rinse indicator */
+.rinse-badge {
+display: inline-flex;
+align-items: center;
+gap: 6px;
+padding: 8px 16px;
+border-radius: 20px;
+font-size: 13px;
+font-weight: 800;
+margin-top: 12px;
+}
+
+.rinse-yes { background: #DCFCE7; color: #15803D; }
+.rinse-skip { background: #FEF9C3; color: #854D0E; }
+
+/* Summary bar */
+.summary-bar {
+background: white;
+border-radius: 16px;
+padding: 14px 18px;
+border: 2px solid var(–border);
+display: flex;
+gap: 12px;
+flex-wrap: wrap;
+margin-bottom: 16px;
+font-size: 13px;
+font-weight: 700;
+}
+
+.summary-item { display: flex; align-items: center; gap: 5px; }
+.summary-item span:first-child { font-size: 16px; }
+
+/* Pot animation */
+@keyframes steam {
+0% { opacity: 0; transform: translateY(0) scaleX(1); }
+50% { opacity: 0.6; transform: translateY(-8px) scaleX(1.1); }
+100% { opacity: 0; transform: translateY(-16px) scaleX(0.8); }
+}
+
+.steam-puff {
+animation: steam 2s ease-in-out infinite;
+}
+.steam-puff:nth-child(2) { animation-delay: 0.6s; }
+.steam-puff:nth-child(3) { animation-delay: 1.2s; }
+
+</style>
+</head>
+<body>
+<div class="app">
+
+  <div class="header">
+    <div style="display:flex; align-items:center; justify-content:center; gap:12px; position:relative;">
+      <h1>🍚 Rice, Right!</h1>
+      <button id="mute-btn" onclick="toggleMute()" title="Toggle sound" style="
+        position:absolute; right:0; top:50%; transform:translateY(-50%);
+        background:white; border:2.5px solid var(--border); border-radius:50%;
+        width:40px; height:40px; font-size:18px; cursor:pointer;
+        display:flex; align-items:center; justify-content:center;
+        box-shadow:0 2px 8px rgba(0,0,0,0.08); transition:all 0.2s;
+      ">🔊</button>
+    </div>
+    <p>No more mushy rice, Arjun. Promise.</p>
+  </div>
+
+  <div class="progress-wrap" id="progressBar">
+    <div class="progress-dot active" id="dot0"></div>
+    <div class="progress-dot" id="dot1"></div>
+    <div class="progress-dot" id="dot2"></div>
+    <div class="progress-dot" id="dot3"></div>
+    <div class="progress-dot" id="dot4"></div>
+    <div class="progress-dot" id="dot5"></div>
+  </div>
+
+  <!-- ===== SCREEN 0: HUNGER ===== -->
+
+  <div class="screen active" id="screen0">
+    <div class="card">
+      <div class="screen-title">How hungry are you? 🤤</div>
+      <div class="screen-sub">We'll figure out how much rice to take</div>
+      <div class="options" id="hunger-options">
+        <button class="option-btn" onclick="selectOption('hunger', 'just-me', this)">
+          <span class="option-emoji">🍚</span>
+          <div class="option-text">
+            <div class="option-label">Just me, normal hungry</div>
+            <div class="option-hint">1 katori raw rice → enough for 1 meal</div>
+          </div>
+        </button>
+        <button class="option-btn" onclick="selectOption('hunger', 'me-plus', this)">
+          <span class="option-emoji">🍚🍚</span>
+          <div class="option-text">
+            <div class="option-label">Me + a little extra</div>
+            <div class="option-hint">1.5 katori → lunch leftover sorted too</div>
+          </div>
+        </button>
+        <button class="option-btn" onclick="selectOption('hunger', 'meal-prep', this)">
+          <span class="option-emoji">🍚🍚🍚</span>
+          <div class="option-text">
+            <div class="option-label">Meal prep, 2–3 days</div>
+            <div class="option-hint">2.5 katori → fridge is your friend</div>
+          </div>
+        </button>
+      </div>
+    </div>
+    <button class="next-btn" id="next0" disabled onclick="goTo(1)">Next →</button>
+  </div>
+
+  <!-- ===== SCREEN 1: RICE TYPE ===== -->
+
+  <div class="screen" id="screen1">
+    <button class="back-btn" onclick="goTo(0)">← Back</button>
+    <div class="card">
+      <div class="screen-title">What rice do you have? 🌾</div>
+      <div class="screen-sub">Pick by look, not by name — totally fine</div>
+      <div class="options" id="rice-options">
+        <button class="rice-card" onclick="selectOption('rice', 'basmati', this)">
+          <div class="rice-visual" style="background:#FFF8E1;">
+            <svg width="52" height="52" viewBox="0 0 52 52">
+              <ellipse cx="26" cy="26" rx="5" ry="14" fill="#F5DEB3" stroke="#C8A96E" stroke-width="1.5"/>
+              <ellipse cx="14" cy="22" rx="4" ry="12" fill="#F5DEB3" stroke="#C8A96E" stroke-width="1.5" transform="rotate(-15 14 22)"/>
+              <ellipse cx="38" cy="30" rx="4" ry="12" fill="#F5DEB3" stroke="#C8A96E" stroke-width="1.5" transform="rotate(15 38 30)"/>
+            </svg>
+          </div>
+          <div class="option-text">
+            <div class="option-label">Long & thin grains</div>
+            <div class="option-hint">Probably Basmati — the tall thin one, smells nice when cooking</div>
+          </div>
+        </button>
+        <button class="rice-card" onclick="selectOption('rice', 'sona', this)">
+          <div class="rice-visual" style="background:#F0F4FF;">
+            <svg width="52" height="52" viewBox="0 0 52 52">
+              <ellipse cx="26" cy="26" rx="7" ry="10" fill="#E8E8D8" stroke="#B8B89A" stroke-width="1.5"/>
+              <ellipse cx="14" cy="20" rx="6" ry="9" fill="#E8E8D8" stroke="#B8B89A" stroke-width="1.5" transform="rotate(-10 14 20)"/>
+              <ellipse cx="38" cy="33" rx="6" ry="9" fill="#E8E8D8" stroke="#B8B89A" stroke-width="1.5" transform="rotate(10 38 33)"/>
+            </svg>
+          </div>
+          <div class="option-text">
+            <div class="option-label">Short & slightly opaque</div>
+            <div class="option-hint">Sona Masoori / Ponni — common in South Indian homes</div>
+          </div>
+        </button>
+        <button class="rice-card" onclick="selectOption('rice', 'sona', this)">
+          <div class="rice-visual" style="background:#F5F5F5; font-size:28px;">📦</div>
+          <div class="option-text">
+            <div class="option-label">Whatever mom packed</div>
+            <div class="option-hint">We'll use the safe default — works for most Indian rice</div>
+          </div>
+        </button>
+        <button class="rice-card" onclick="selectOption('rice', 'sona', this)">
+          <div class="rice-visual" style="background:#F5F5F5; font-size:28px;">🤷</div>
+          <div class="option-text">
+            <div class="option-label">Store brand / not sure</div>
+            <div class="option-hint">No worries — safe default has you covered</div>
+          </div>
+        </button>
+      </div>
+    </div>
+    <button class="next-btn" id="next1" disabled onclick="goTo(2)">Next →</button>
+  </div>
+
+  <!-- ===== SCREEN 2: COOKING METHOD ===== -->
+
+  <div class="screen" id="screen2">
+    <button class="back-btn" onclick="goTo(1)">← Back</button>
+    <div class="card">
+      <div class="screen-title">How are you cooking? 🔥</div>
+      <div class="screen-sub">Both work — pick what you have</div>
+      <div class="options-grid" id="method-options">
+        <div class="option-card" onclick="selectOption('method', 'pot', this)">
+          <span class="big-emoji">🫕</span>
+          <div class="card-label">Open Pot</div>
+          <div class="card-hint">Easier to watch<br>~20 mins</div>
+        </div>
+        <div class="option-card" onclick="selectOption('method', 'cooker', this)">
+          <span class="big-emoji">🥘</span>
+          <div class="card-label">Pressure Cooker</div>
+          <div class="card-hint">Faster<br>~10 mins</div>
+        </div>
+      </div>
+
+```
+  <!-- Cooker size — only shows if pressure cooker selected -->
+  <div id="cooker-size-wrap" style="display:none; margin-top:16px;">
+    <div style="font-weight:800; font-size:14px; margin-bottom:10px;">What size is your cooker?</div>
+    <div class="options-grid" id="cooker-options">
+      <div class="option-card" onclick="selectOption('cooker', 'small', this)">
+        <span class="big-emoji" style="font-size:28px;">🥘</span>
+        <div class="card-label">Small (2L)</div>
+        <div class="card-hint">Fits 1–2 portions</div>
+      </div>
+      <div class="option-card" onclick="selectOption('cooker', 'medium', this)">
+        <span class="big-emoji">🥘</span>
+        <div class="card-label">Medium (3–5L)</div>
+        <div class="card-hint">Standard home size</div>
+      </div>
+    </div>
+  </div>
+</div>
+<button class="next-btn" id="next2" disabled onclick="goTo(3)">Next →</button>
+```
+
+  </div>
+
+  <!-- ===== SCREEN 3: WATER ===== -->
+
+  <div class="screen" id="screen3">
+    <button class="back-btn" onclick="goTo(2)">← Back</button>
+    <div class="card">
+      <div class="screen-title">How much water? 💧</div>
+      <div class="screen-sub">Pick the method you know — we'll explain both</div>
+
+```
+  <div class="water-methods">
+    <!-- FINGER METHOD -->
+    <div class="water-method-card" id="water-finger" onclick="selectWater('finger')">
+      <svg width="80" height="80" viewBox="0 0 80 80">
+        <!-- Pot -->
+        <rect x="15" y="45" width="50" height="28" rx="6" fill="#E8D5B7" stroke="#C8A96E" stroke-width="2"/>
+        <rect x="12" y="42" width="56" height="6" rx="3" fill="#C8A96E"/>
+        <!-- Water inside pot -->
+        <rect x="17" y="51" width="46" height="16" rx="3" fill="#93C5FD" opacity="0.6"/>
+        <!-- Rice at bottom -->
+        <rect x="19" y="60" width="42" height="6" rx="2" fill="#F5DEB3" opacity="0.8"/>
+        <!-- Water level line -->
+        <line x1="17" y1="55" x2="63" y2="55" stroke="#3B82F6" stroke-width="1.5" stroke-dasharray="3,2"/>
+        <!-- Finger -->
+        <rect x="36" y="18" width="10" height="38" rx="5" fill="#FBBF24" stroke="#F59E0B" stroke-width="1.5"/>
+        <ellipse cx="41" cy="18" rx="5" ry="4" fill="#FBBF24" stroke="#F59E0B" stroke-width="1.5"/>
+        <!-- Knuckle line -->
+        <line x1="33" y1="44" x2="49" y2="44" stroke="#EF4444" stroke-width="2" stroke-dasharray="4,2"/>
+        <text x="50" y="47" font-size="8" fill="#EF4444" font-weight="bold">← fill here</text>
+      </svg>
+      <h4>👆 Finger Method</h4>
+      <p>Like mom taught</p>
+    </div>
+
+    <!-- KATORI METHOD -->
+    <div class="water-method-card" id="water-katori" onclick="selectWater('katori')">
+      <svg width="80" height="80" viewBox="0 0 80 80">
+        <!-- Pot -->
+        <rect x="8" y="48" width="42" height="25" rx="6" fill="#E8D5B7" stroke="#C8A96E" stroke-width="2"/>
+        <rect x="5" y="45" width="48" height="6" rx="3" fill="#C8A96E"/>
+        <!-- Water in pot -->
+        <rect x="10" y="54" width="38" height="13" rx="3" fill="#93C5FD" opacity="0.6"/>
+        <!-- Rice in pot -->
+        <rect x="12" y="62" width="34" height="5" rx="2" fill="#F5DEB3" opacity="0.8"/>
+        <!-- Katori pouring -->
+        <ellipse cx="62" cy="28" rx="14" ry="10" fill="#E8D5B7" stroke="#C8A96E" stroke-width="2"/>
+        <ellipse cx="62" cy="24" rx="14" ry="6" fill="#93C5FD" opacity="0.7"/>
+        <!-- Water stream -->
+        <path d="M52 33 Q45 42 35 50" stroke="#3B82F6" stroke-width="2.5" fill="none" stroke-linecap="round" opacity="0.7"/>
+        <!-- x2 label -->
+        <text x="52" y="20" font-size="11" fill="#1D4ED8" font-weight="bold">x 2</text>
+      </svg>
+      <h4>🥛 Katori Method</h4>
+      <p>Same cup, double water</p>
+    </div>
+  </div>
+
+  <!-- Instruction panel -->
+  <div class="water-instruction" id="water-instruction" style="display:none;">
+    <h4 id="water-inst-title"></h4>
+    <p id="water-inst-body"></p>
+    <p class="why" id="water-inst-why"></p>
+  </div>
+
+  <!-- Finger method video -->
+  <div id="finger-video-wrap" style="display:none; margin-top:14px; border-radius:16px; overflow:hidden; border:2.5px solid #3B82F6; box-shadow:0 4px 20px rgba(59,130,246,0.2);">
+    <iframe src="https://player.cloudinary.com/embed/?cloud_name=ddgaysorz&public_id=finger-method_wpf128&autoplay=true&loop=true&muted=true&controls=false"
+      style="width:100%; height:220px; border:none; display:block;"
+      allow="autoplay; fullscreen" allowfullscreen></iframe>
+    <div style="padding:8px 12px; background:#EFF6FF; font-size:12px; font-weight:700; color:#1D4ED8;">
+      👆 Touch the rice surface — fill to your first knuckle
+    </div>
+  </div>
+
+  <!-- Katori method video -->
+  <div id="katori-video-wrap" style="display:none; margin-top:14px; border-radius:16px; overflow:hidden; border:2.5px solid #118AB2; box-shadow:0 4px 20px rgba(17,138,178,0.2);">
+    <div style="width:100%;height:80px;display:flex;align-items:center;
+      justify-content:center;font-size:32px;">🥛</div>
+    <div style="padding:8px 12px; background:#E0F2FE; font-size:12px; font-weight:700; color:#075985;">
+      🥛 Same katori for rice → use it to measure water too
+    </div>
+  </div>
+
+  <!-- Rinse tip -->
+  <div id="rinse-tip" style="display:none; margin-top:12px; padding:12px 14px; background:#FFF8F0; border:2px solid var(--border); border-radius:14px;">
+    <div style="font-weight:800; font-size:13px; margin-bottom:4px;">🚿 Rinse your rice?</div>
+    <div id="rinse-body" style="font-size:13px; font-weight:600; color:#555; line-height:1.6;"></div>
+  </div>
+
+</div>
+<button class="next-btn" id="next3" disabled onclick="goTo(4)">Let's Cook! 🔥</button>
+```
+
+  </div>
+
+  <!-- ===== SCREEN 4: COOKING STEPS ===== -->
+
+  <div class="screen" id="screen4">
+    <button class="back-btn" onclick="goTo(3)">← Back</button>
+
+```
+<!-- Summary bar -->
+<div class="summary-bar" id="summary-bar"></div>
+
+<!-- Step card -->
+<div class="step-card" id="step-card">
+  <div class="step-number" id="step-number">STEP 1 OF 4</div>
+  <div class="step-title" id="step-title"></div>
+
+  <!-- Flame label badge -->
+  <div id="flame-badge" style="margin-bottom:8px; min-height:36px;"></div>
+
+  <!-- Pot + stove visual (rendered by JS) -->
+  <div id="pot-visual" style="text-align:center; margin:4px 0 8px; display:none;"></div>
+
+  <div class="step-desc" id="step-desc"></div>
+  <div class="warning-box" id="step-warning" style="display:none;">
+    <span>⚠️</span><span id="step-warning-text"></span>
+  </div>
+</div>
+
+<!-- Timer -->
+<div class="card" id="timer-card" style="text-align:center; display:none;">
+  <div class="timer-label">TIME REMAINING</div>
+  <div class="timer-display" id="timer-display">00:00</div>
+  <div class="timer-controls">
+    <button class="timer-btn secondary" onclick="resetTimer()">↺ Reset</button>
+    <button class="timer-btn primary" id="timer-toggle" onclick="toggleTimer()">▶ Start</button>
+  </div>
+</div>
+
+<button class="next-btn" id="next-step-btn" onclick="nextStep()">Next Step →</button>
+```
+
+  </div>
+
+  <!-- ===== SCREEN 5: SUCCESS ===== -->
+
+  <div class="screen" id="screen5">
+    <div class="card">
+      <div class="success-screen">
+        <span class="success-emoji">🍚</span>
+        <div class="success-title">Perfect. You made rice.</div>
+        <div class="success-sub">Fluff gently with a fork. Don't stir.<br>Serve within 20 mins for best texture.</div>
+
+```
+    <div class="tip-box" id="next-time-tip">
+      <h4>💡 Next time tip</h4>
+      <p id="tip-text"></p>
+    </div>
+
+    <div style="background:#FFF0F0; border:2px solid #FFB3B3; border-radius:14px; padding:14px; margin:12px 0; text-align:left;">
+      <div style="font-weight:800; font-size:14px; color:#C0392B; margin-bottom:4px;">🚫 Don't lift the lid yet!</div>
+      <div style="font-size:13px; font-weight:600; color:#555;">Wait 5 full minutes before opening. The trapped steam is still finishing the job.</div>
+    </div>
+  </div>
+</div>
+<button class="restart-btn" onclick="restart()">🔄 Cook Again</button>
+```
+
+  </div>
+
+</div>
+
+<script>
+// ===== VIDEO URLS =====
+var FINGER_VIDEO_SRC       = 'https://res.cloudinary.com/ddgaysorz/video/upload/finger-method_wpf128.mp4';
+var RICE_POT_VIDEO_SRC     = '';
+var BOILING_POT_VIDEO_SRC  = 'https://res.cloudinary.com/ddgaysorz/video/upload/boiling-pot_n7a92u.mp4';
+
+// ===== STATE =====
+const state = {
+  hunger: null,
+  rice: null,
+  method: null,
+  cooker: null,
+  water: null,
+  currentStep: 0,
+  timerInterval: null,
+  timerSeconds: 0,
+  timerRunning: false,
+};
+
+// ===== STEPS DATA =====
+function getSteps() {
+  // Embedded videos
+
+
+
+
+  const isPot = state.method === 'pot';
+  const isBasmati = state.rice === 'basmati';
+
+  const hungerMap = { 'just-me': '1 katori', 'me-plus': '1.5 katori', 'meal-prep': '2.5 katori' };
+  const riceAmt = hungerMap[state.hunger] || '1 katori';
+
+  const waterRatioPot = isBasmati ? '2' : '1.75';
+  const waterRatioCooker = isBasmati ? '1.25' : '1.5';
+  const waterRatio = isPot ? waterRatioPot : waterRatioCooker;
+
+  const whistles = state.cooker === 'small' ? '2 whistles' : '3 whistles';
+
+  if (isPot) {
+    return [
+      {
+        title: 'Wash & Add Rice',
+        flame: null,
+        showPot: false,
+        desc: `Take ${riceAmt} of rice. Rinse ${isBasmati ? '2 times' : '3 times'} until water is clearer. Add to your pot.\n\nAdd water — ${riceAmt} rice → ${waterRatio} katori water.`,
+        warning: null,
+        timer: 0,
+      },
+      {
+        title: 'High Flame — Bring to Boil',
+        flame: 'high',
+        showPot: true,
+        desc: 'Place pot on your front burner. Turn to HIGH flame. Wait until you see big bubbles forming at the surface.',
+        warning: 'Keep the lid OFF at this stage — you need to watch it!',
+        timer: 8 * 60,
+      },
+      {
+        title: 'Low Flame — Cover & Simmer',
+        flame: 'low',
+        showPot: true,
+        desc: 'The moment you see strong bubbling — reduce to LOWEST flame. Put the lid on. Walk away.',
+        warning: 'DO NOT lift the lid. DO NOT stir. The steam is cooking it now. 🙏',
+        timer: 12 * 60,
+      },
+      {
+        title: 'Flame Off — Rest',
+        flame: null,
+        showPot: true,
+        desc: 'Turn off the flame completely. Keep lid on. Let it rest for 5 minutes.',
+        warning: 'Skipping this = mushy top, dry bottom. 5 mins. You can do it.',
+        timer: 5 * 60,
+      },
+    ];
+  } else {
+    // Pressure cooker
+    return [
+      {
+        title: 'Wash & Add Rice',
+        flame: null,
+        showPot: false,
+        desc: `Take ${riceAmt} of rice. Rinse ${isBasmati ? '2 times' : '3 times'} until water is clearer. Add to your cooker.\n\nAdd water — ${riceAmt} rice → ${waterRatio} katori water. Less than open pot — that's correct!`,
+        warning: null,
+        timer: 0,
+      },
+      {
+        title: 'High Flame — Seal Cooker',
+        flame: 'high',
+        showPot: true,
+        desc: `Put the lid on the pressure cooker. Lock it properly. Place on front burner, HIGH flame.`,
+        warning: 'Make sure the rubber gasket/ring is in place before closing!',
+        timer: 0,
+      },
+      {
+        title: `Wait for ${whistles}`,
+        flame: 'mid',
+        showPot: true,
+        desc: `Keep on medium flame. Count ${whistles}. After the last whistle — turn flame OFF immediately.`,
+        warning: `${whistles} for your cooker size. Don't go by what mom said — her cooker might be different.`,
+        timer: (state.cooker === 'small' ? 6 : 8) * 60,
+      },
+      {
+        title: 'Wait for Pressure to Drop',
+        flame: null,
+        showPot: true,
+        desc: 'Do NOT open the cooker yet. Let pressure drop naturally — you\'ll hear it click or the weight will drop. Takes about 5–8 minutes.',
+        warning: 'Never force open a pressure cooker. Let it release on its own.',
+        timer: 6 * 60,
+      },
+    ];
+  }
+}
+
+// ===== STOVE + POT VISUALIZER (real photos) =====
+function renderStove(flame, showLid) {
+  const el = document.getElementById('pot-visual');
+  const isPressure = state.method === 'cooker';
+  const hasFlame = !!flame;
+
+  // Real photo URLs
+  const PC_IMG       = 'https://upload.wikimedia.org/wikipedia/commons/thumb/b/b3/Pressure_cooker_-_Hawkins%2C_Contura_Model_-_3_litres_-_4.jpg/480px-Pressure_cooker_-_Hawkins%2C_Contura_Model_-_3_litres_-_4.jpg';
+  const POT_LID_IMG  = 'https://images.unsplash.com/photo-1547592166-23ac45744acd?w=560&auto=format&fit=crop&q=80';
+
+  // Flame border colour
+  var borderColor = '#E5E7EB';
+  var glowColor   = 'transparent';
+  if (flame === 'high') { borderColor = '#EF4444'; glowColor = 'rgba(239,68,68,0.18)'; }
+  if (flame === 'mid')  { borderColor = '#F97316'; glowColor = 'rgba(249,115,22,0.15)'; }
+  if (flame === 'low')  { borderColor = '#3B82F6'; glowColor = 'rgba(59,130,246,0.12)'; }
+
+  // Steam CSS
+  var steamCSS = '';
+  if (hasFlame) {
+    steamCSS = '@keyframes steamRise{0%{opacity:0;transform:translateY(0) scaleX(1)}40%{opacity:0.7}100%{opacity:0;transform:translateY(-28px) scaleX(1.3)}}' +
+               '.steam-wisp{animation:steamRise 2.2s ease-in-out infinite}' +
+               '.steam-wisp:nth-child(2){animation-delay:0.7s}' +
+               '.steam-wisp:nth-child(3){animation-delay:1.4s}';
+  }
+
+  // Steam overlay HTML
+  var steamHTML = '';
+  if (hasFlame) {
+    steamHTML = '<div style="position:absolute;top:10px;left:50%;transform:translateX(-50%);pointer-events:none;">' +
+      '<svg width="80" height="40" viewBox="0 0 80 40" style="overflow:visible;">' +
+      '<ellipse class="steam-wisp" cx="20" cy="30" rx="8" ry="5" fill="#CBD5E1" opacity="0"/>' +
+      '<ellipse class="steam-wisp" cx="40" cy="28" rx="10" ry="6" fill="#E2E8F0" opacity="0"/>' +
+      '<ellipse class="steam-wisp" cx="60" cy="32" rx="7" ry="4" fill="#CBD5E1" opacity="0"/>' +
+      '</svg></div>';
+  }
+
+  // Build media element
+  var mediaHTML = '';
+  var isVideo = false;
+  var caption = '';
+
+  if (isPressure) {
+    caption = hasFlame ? 'Pressure cooker on gas stove' : 'Pressure cooker — lid locked';
+    mediaHTML = '<img src="' + PC_IMG + '" referrerpolicy="no-referrer"' +
+      ' alt="' + caption + '"' +
+      ' onerror="this.style.display=\'none\'"' +
+      ' style="width:280px;height:200px;object-fit:cover;display:block;"/>';
+  } else if (showLid) {
+    caption = 'Lid on — simmering on low flame';
+    mediaHTML = '<img src="' + POT_LID_IMG + '" referrerpolicy="no-referrer"' +
+      ' alt="' + caption + '"' +
+      ' onerror="this.style.display=\'none\'"' +
+      ' style="width:280px;height:200px;object-fit:cover;display:block;"/>';
+  } else {
+    caption = 'High flame — watch for bubbles';
+    isVideo = true;
+    mediaHTML = '<iframe src="https://player.cloudinary.com/embed/?cloud_name=ddgaysorz&public_id=boiling-pot_n7a92u&autoplay=true&loop=true&muted=true&controls=false"' +
+      ' style="width:280px;height:200px;border:none;display:block;"' +
+      ' allow="autoplay; fullscreen" allowfullscreen></iframe>';
+    isVideo = false; // iframe handles itself, no need to call .load()
+  }
+
+  // Caption bar
+  var captionHTML = '<div style="position:absolute;bottom:0;left:0;right:0;' +
+    'background:linear-gradient(transparent,rgba(0,0,0,0.65));' +
+    'padding:18px 12px 10px;font-family:Nunito,sans-serif;font-size:12px;' +
+    'font-weight:700;color:white;text-align:left;">' + caption + '</div>';
+
+  // Assemble
+  el.innerHTML = '<style>' + steamCSS + '</style>' +
+
+```
+'<div style="position:relative;display:inline-block;border-radius:20px;overflow:hidden;' +
+'border:3px solid ' + borderColor + ';' +
+'box-shadow:0 0 24px ' + glowColor + ',0 4px 16px rgba(0,0,0,0.12);' +
+'transition:border-color 0.4s,box-shadow 0.4s;width:280px;">' +
+mediaHTML + steamHTML + captionHTML + '</div>';
+```
+
+// For injected video elements — set src and trigger play
+if (isVideo) {
+var vid = el.querySelector(’#stove-vid’);
+if (vid) {
+vid.src = BOILING_POT_VIDEO_SRC;
+vid.load();
+vid.play().catch(function(){});
+}
+}
+}
+
+// ===== FLAME BADGE (label only — visual is in renderStove) =====
+function getFallbackStove(type, flame, lidOn) {
+// Clean CSS fallback if images fail to load
+const isPressure = type === ‘cooker’;
+const flameEmoji = flame === ‘high’ ? ‘🔥🔥🔥’ : flame === ‘mid’ ? ‘🔥🔥’ : flame === ‘low’ ? ‘🔥’ : ‘’;
+const potEmoji = isPressure ? ‘🥘’ : (lidOn === ‘true’ ? ‘🫕’ : ‘🍲’);
+return `<div style="width:280px;height:200px;background:linear-gradient(135deg,#1a1a1a,#2d2d2d);
+border-radius:17px;display:flex;flex-direction:column;align-items:center;
+justify-content:center;gap:8px;">
+<div style="font-size:72px;line-height:1;">${potEmoji}</div>
+<div style="font-size:24px;">${flameEmoji}</div>
+<div style="font-family:Nunito,sans-serif;font-size:12px;color:#94A3B8;font-weight:700;">
+${isPressure ? ‘Pressure Cooker’ : ‘Open Pot’}
+</div>
+
+  </div>`;
+}
+
+function renderFlame(level) {
+const badge = document.getElementById(‘flame-badge’);
+if (!level) { badge.innerHTML = ‘’; return; }
+const map = {
+low:  { cls: ‘flame-low’,  label: ‘🔵 LOW FLAME’ },
+mid:  { cls: ‘flame-mid’,  label: ‘🟠 MEDIUM FLAME’ },
+high: { cls: ‘flame-high’, label: ‘🔴 HIGH FLAME’ },
+};
+const m = map[level];
+badge.innerHTML = `<span class="flame-label ${m.cls}" style="display:inline-block;padding:6px 20px;border-radius:20px;font-family:'Fredoka One',cursive;font-size:18px;letter-spacing:1px;">${m.label}</span>`;
+}
+
+// ===== STEP RENDERING =====
+function renderStep() {
+const steps = getSteps();
+const step = steps[state.currentStep];
+const total = steps.length;
+
+document.getElementById(‘step-number’).textContent = `STEP ${state.currentStep + 1} OF ${total}`;
+document.getElementById(‘step-title’).textContent = step.title;
+document.getElementById(‘step-desc’).textContent = step.desc;
+
+const warn = document.getElementById(‘step-warning’);
+if (step.warning) {
+warn.style.display = ‘flex’;
+document.getElementById(‘step-warning-text’).textContent = step.warning;
+} else {
+warn.style.display = ‘none’;
+}
+
+// Flame
+renderFlame(step.flame);
+
+// Pot + stove
+const potEl = document.getElementById(‘pot-visual’);
+if (step.showPot) {
+potEl.style.display = ‘block’;
+// Lid is ON for low flame / rest steps (simmering), OFF for high flame (boiling)
+const lidOn = step.flame === ‘low’ || (!step.flame && state.currentStep > 0);
+renderStove(step.flame, lidOn);
+} else {
+potEl.style.display = ‘none’;
+}
+
+// Timer
+const timerCard = document.getElementById(‘timer-card’);
+if (step.timer > 0) {
+timerCard.style.display = ‘block’;
+state.timerSeconds = step.timer;
+state.timerRunning = false;
+if (state.timerInterval) { clearInterval(state.timerInterval); state.timerInterval = null; }
+updateTimerDisplay();
+document.getElementById(‘timer-toggle’).textContent = ‘▶ Start’;
+} else {
+timerCard.style.display = ‘none’;
+}
+
+// Next button
+const nextBtn = document.getElementById(‘next-step-btn’);
+if (state.currentStep === total - 1) {
+nextBtn.textContent = ‘🍚 Rice is Ready!’;
+} else {
+nextBtn.textContent = ‘Next Step →’;
+}
+
+// Update progress
+updateProgress(4);
+
+// Trigger ambient sounds for this step
+handleStepSounds(step);
+}
+
+function nextStep() {
+const steps = getSteps();
+if (state.currentStep < steps.length - 1) {
+state.currentStep++;
+if (state.timerInterval) { clearInterval(state.timerInterval); state.timerInterval = null; }
+state.timerRunning = false;
+renderStep();
+} else {
+goTo(5);
+}
+}
+
+// ===== TIMER =====
+function toggleTimer() {
+if (state.timerRunning) {
+clearInterval(state.timerInterval);
+state.timerRunning = false;
+document.getElementById(‘timer-toggle’).textContent = ‘▶ Resume’;
+} else {
+state.timerRunning = true;
+document.getElementById(‘timer-toggle’).textContent = ‘⏸ Pause’;
+state.timerInterval = setInterval(() => {
+state.timerSeconds–;
+updateTimerDisplay();
+if (state.timerSeconds <= 0) {
+clearInterval(state.timerInterval);
+state.timerRunning = false;
+stopAmbientSounds();
+document.getElementById(‘timer-toggle’).textContent = ‘✓ Done!’;
+document.getElementById(‘timer-display’).style.color = ‘var(–green)’;
+document.getElementById(‘timer-display’).textContent = ‘00:00’;
+// Play whistle for pressure cooker whistle step, else beep
+const steps = getSteps();
+const step = steps[state.currentStep];
+if (state.method === ‘cooker’ && step.title && step.title.includes(‘whistle’)) {
+const count = state.cooker === ‘small’ ? 2 : 3;
+playWhistle(count);
+} else {
+playTimerBeep();
+}
+}
+}, 1000);
+}
+}
+
+function resetTimer() {
+const steps = getSteps();
+const step = steps[state.currentStep];
+clearInterval(state.timerInterval);
+state.timerInterval = null;
+state.timerRunning = false;
+state.timerSeconds = step.timer;
+updateTimerDisplay();
+document.getElementById(‘timer-toggle’).textContent = ‘▶ Start’;
+document.getElementById(‘timer-display’).style.color = ‘var(–orange)’;
+}
+
+function updateTimerDisplay() {
+const m = Math.floor(state.timerSeconds / 60).toString().padStart(2, ‘0’);
+const s = (state.timerSeconds % 60).toString().padStart(2, ‘0’);
+document.getElementById(‘timer-display’).textContent = `${m}:${s}`;
+}
+
+// ===== WATER METHOD =====
+function selectWater(method) {
+state.water = method;
+document.getElementById(‘water-finger’).classList.toggle(‘selected’, method === ‘finger’);
+document.getElementById(‘water-katori’).classList.toggle(‘selected’, method === ‘katori’);
+
+// Embedded videos
+
+const isPot = state.method === ‘pot’;
+const isBasmati = state.rice === ‘basmati’;
+const waterRatioPot = isBasmati ? ‘2’ : ‘1.75’;
+const waterRatioCooker = isBasmati ? ‘1.25’ : ‘1.5’;
+const ratio = isPot ? waterRatioPot : waterRatioCooker;
+
+const instEl = document.getElementById(‘water-instruction’);
+const titleEl = document.getElementById(‘water-inst-title’);
+const bodyEl = document.getElementById(‘water-inst-body’);
+const whyEl = document.getElementById(‘water-inst-why’);
+instEl.style.display = ‘block’;
+
+if (method === ‘finger’) {
+titleEl.textContent = ‘👆 Finger Method’;
+bodyEl.textContent = `Place your finger on top of the levelled rice. Fill water until it reaches your first knuckle joint — roughly 1 inch above the rice. ${isPot ? '' : 'For pressure cooker: go just below the knuckle — slightly less water.'}`;
+whyEl.textContent = `Why it sometimes doesn't work: Mom's pot is narrower than yours. In wider pots, 1 knuckle = more water than needed. If your pot is wide, add just a splash less.`;
+} else {
+titleEl.textContent = ‘🥛 Katori Method’;
+bodyEl.textContent = `Whatever katori/glass you used for rice — use that SAME katori for water. Rice : Water = 1 : ${ratio}. So if you took 1 katori rice, add ${ratio} katori water.`;
+whyEl.textContent = `This works because it's unit-agnostic — doesn't matter if you used a big or small katori, as long as it's the same one for both.`;
+}
+
+// Rinse tip
+const rinseEl = document.getElementById(‘rinse-tip’);
+const rinseBody = document.getElementById(‘rinse-body’);
+rinseEl.style.display = ‘block’;
+if (isBasmati) {
+rinseBody.innerHTML = `Rinse 2 times until water is clearer. Skipping = stickier rice. <span class="rinse-badge rinse-skip">Optional but recommended</span>`;
+} else {
+rinseBody.innerHTML = `Rinse 3 times — Sona Masoori gets starchy fast. <span class="rinse-badge rinse-yes">Don't skip this one</span>`;
+}
+
+document.getElementById(‘next3’).disabled = false;
+
+// Show the right video, hide the other
+const fingerWrap = document.getElementById(‘finger-video-wrap’);
+const katoriWrap = document.getElementById(‘katori-video-wrap’);
+const fingerVid  = document.getElementById(‘finger-video’);
+const katoriVid  = document.getElementById(‘katori-video’);
+
+if (method === ‘finger’) {
+fingerWrap.style.display = ‘block’;
+katoriWrap.style.display = ‘none’;
+} else {
+katoriWrap.style.display = ‘block’;
+fingerWrap.style.display = ‘none’;
+}
+}
+
+// ===== SOUND ENGINE =====
+let audioCtx = null;
+let isMuted = false;
+let sizzleSource = null;
+let bubbleSource = null;
+let sizzleGain = null;
+let bubbleGain = null;
+
+function getAudioCtx() {
+if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+return audioCtx;
+}
+
+function toggleMute() {
+isMuted = !isMuted;
+document.getElementById(‘mute-btn’).textContent = isMuted ? ‘🔇’ : ‘🔊’;
+document.getElementById(‘mute-btn’).style.borderColor = isMuted ? ‘#EF4444’ : ‘var(–border)’;
+if (isMuted) stopAmbientSounds();
+}
+
+// — Pressure cooker whistle —
+function playWhistle(count) {
+if (isMuted) return;
+const ctx = getAudioCtx();
+let delay = 0;
+for (let i = 0; i < count; i++) {
+(function(d) {
+setTimeout(() => {
+const osc1 = ctx.createOscillator();
+const osc2 = ctx.createOscillator();
+const gainNode = ctx.createGain();
+const distortion = ctx.createWaveShaper();
+const curve = new Float32Array(256);
+for (let j = 0; j < 256; j++) {
+const x = (j * 2) / 256 - 1;
+curve[j] = (Math.PI + 200) * x / (Math.PI + 200 * Math.abs(x));
+}
+distortion.curve = curve;
+osc1.type = ‘sawtooth’;
+osc1.frequency.setValueAtTime(880, ctx.currentTime);
+osc1.frequency.exponentialRampToValueAtTime(1200, ctx.currentTime + 0.05);
+osc1.frequency.exponentialRampToValueAtTime(950, ctx.currentTime + 0.4);
+osc1.frequency.exponentialRampToValueAtTime(600, ctx.currentTime + 0.8);
+osc2.type = ‘sine’;
+osc2.frequency.setValueAtTime(1760, ctx.currentTime);
+osc2.frequency.exponentialRampToValueAtTime(800, ctx.currentTime + 0.8);
+gainNode.gain.setValueAtTime(0, ctx.currentTime);
+gainNode.gain.linearRampToValueAtTime(0.55, ctx.currentTime + 0.03);
+gainNode.gain.setValueAtTime(0.45, ctx.currentTime + 0.5);
+gainNode.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.9);
+osc1.connect(distortion); osc2.connect(distortion);
+distortion.connect(gainNode); gainNode.connect(ctx.destination);
+osc1.start(ctx.currentTime); osc2.start(ctx.currentTime);
+osc1.stop(ctx.currentTime + 0.95); osc2.stop(ctx.currentTime + 0.95);
+}, d);
+})(delay);
+delay += 1300;
+}
+}
+
+// — Timer done beep —
+function playTimerBeep() {
+if (isMuted) return;
+const ctx = getAudioCtx();
+[0, 180, 360, 700].forEach((offset, i) => {
+setTimeout(() => {
+const osc = ctx.createOscillator();
+const gain = ctx.createGain();
+osc.type = ‘sine’;
+osc.frequency.value = i === 3 ? 880 : 660;
+gain.gain.setValueAtTime(0, ctx.currentTime);
+gain.gain.linearRampToValueAtTime(0.4, ctx.currentTime + 0.01);
+gain.gain.setValueAtTime(0.35, ctx.currentTime + 0.08);
+gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.18);
+osc.connect(gain); gain.connect(ctx.destination);
+osc.start(ctx.currentTime); osc.stop(ctx.currentTime + 0.2);
+}, offset);
+});
+}
+
+// — Sizzle (high-freq noise loop for high flame) —
+function startSizzle() {
+if (isMuted) return;
+stopSizzle();
+const ctx = getAudioCtx();
+const bufferSize = ctx.sampleRate * 3;
+const buffer = ctx.createBuffer(1, bufferSize, ctx.sampleRate);
+const data = buffer.getChannelData(0);
+for (let i = 0; i < bufferSize; i++) {
+data[i] = (Math.random() * 2 - 1) * (i % 3 === 0 ? 1 : 0.3);
+}
+sizzleSource = ctx.createBufferSource();
+sizzleSource.buffer = buffer;
+sizzleSource.loop = true;
+const hp = ctx.createBiquadFilter(); hp.type = ‘highpass’; hp.frequency.value = 3000;
+const lp = ctx.createBiquadFilter(); lp.type = ‘lowpass’; lp.frequency.value = 8000;
+sizzleGain = ctx.createGain();
+sizzleGain.gain.setValueAtTime(0, ctx.currentTime);
+sizzleGain.gain.linearRampToValueAtTime(0.15, ctx.currentTime + 1.2);
+sizzleSource.connect(hp); hp.connect(lp); lp.connect(sizzleGain); sizzleGain.connect(ctx.destination);
+sizzleSource.start();
+}
+
+function stopSizzle() {
+if (sizzleSource) {
+try {
+if (sizzleGain) {
+const ctx = getAudioCtx();
+sizzleGain.gain.setValueAtTime(sizzleGain.gain.value, ctx.currentTime);
+sizzleGain.gain.linearRampToValueAtTime(0, ctx.currentTime + 0.5);
+}
+setTimeout(() => { try { sizzleSource.stop(); } catch(e){} sizzleSource = null; }, 600);
+} catch(e) { sizzleSource = null; }
+}
+}
+
+// — Bubble sound (procedural plops for boiling) —
+function startBubbles() {
+if (isMuted) return;
+stopBubbles();
+const ctx = getAudioCtx();
+bubbleGain = ctx.createGain();
+bubbleGain.gain.setValueAtTime(0, ctx.currentTime);
+bubbleGain.gain.linearRampToValueAtTime(0.3, ctx.currentTime + 1.5);
+bubbleGain.connect(ctx.destination);
+
+function scheduleBubble() {
+if (!bubbleGain) return;
+try {
+const now = ctx.currentTime;
+const osc = ctx.createOscillator();
+const g = ctx.createGain();
+const freq = 100 + Math.random() * 220;
+osc.frequency.setValueAtTime(freq, now);
+osc.frequency.exponentialRampToValueAtTime(freq * 2.0, now + 0.03);
+osc.frequency.exponentialRampToValueAtTime(freq * 0.4, now + 0.12);
+osc.type = ‘sine’;
+g.gain.setValueAtTime(0, now);
+g.gain.linearRampToValueAtTime(0.5 + Math.random() * 0.35, now + 0.012);
+g.gain.exponentialRampToValueAtTime(0.001, now + 0.13);
+osc.connect(g); g.connect(bubbleGain);
+osc.start(now); osc.stop(now + 0.15);
+} catch(e) {}
+const next = 80 + Math.random() * 260;
+bubbleSource = setTimeout(scheduleBubble, next);
+}
+bubbleSource = setTimeout(scheduleBubble, 500);
+}
+
+function stopBubbles() {
+if (bubbleSource) { clearTimeout(bubbleSource); bubbleSource = null; }
+if (bubbleGain) {
+try {
+const ctx = getAudioCtx();
+bubbleGain.gain.setValueAtTime(bubbleGain.gain.value, ctx.currentTime);
+bubbleGain.gain.linearRampToValueAtTime(0, ctx.currentTime + 0.8);
+setTimeout(() => { bubbleGain = null; }, 900);
+} catch(e) { bubbleGain = null; }
+}
+}
+
+function stopAmbientSounds() { stopSizzle(); stopBubbles(); }
+
+function handleStepSounds(step) {
+stopAmbientSounds();
+if (isMuted) return;
+if (step.flame === ‘high’) setTimeout(() => startSizzle(), 400);
+if (step.flame === ‘high’ && step.showPot) setTimeout(() => startBubbles(), 5000);
+if (step.flame === ‘low’ && step.showPot) setTimeout(() => startBubbles(), 600);
+}
+
+// ===== OPTION SELECTION =====
+function selectOption(type, value, el) {
+state[type] = value;
+
+// Deselect siblings
+const parent = el.parentElement;
+parent.querySelectorAll(’.option-btn, .option-card, .rice-card’).forEach(b => b.classList.remove(‘selected’));
+el.classList.add(‘selected’);
+
+// Show cooker size if pressure cooker
+if (type === ‘method’) {
+document.getElementById(‘cooker-size-wrap’).style.display = value === ‘cooker’ ? ‘block’ : ‘none’;
+if (value === ‘pot’) {
+state.cooker = ‘medium’;
+document.getElementById(‘next2’).disabled = false;
+} else {
+document.getElementById(‘next2’).disabled = true;
+}
+}
+
+if (type === ‘cooker’) {
+document.getElementById(‘next2’).disabled = false;
+}
+
+if (type === ‘hunger’) document.getElementById(‘next0’).disabled = false;
+if (type === ‘rice’) document.getElementById(‘next1’).disabled = false;
+}
+
+// ===== NAVIGATION =====
+function goTo(screen) {
+document.querySelectorAll(’.screen’).forEach(s => s.classList.remove(‘active’));
+document.getElementById(`screen${screen}`).classList.add(‘active’);
+
+if (screen === 4) {
+state.currentStep = 0;
+buildSummaryBar();
+renderStep();
+}
+
+if (screen === 5) {
+stopAmbientSounds();
+renderSuccess();
+}
+
+updateProgress(screen);
+window.scrollTo(0, 0);
+}
+
+function updateProgress(current) {
+for (let i = 0; i < 6; i++) {
+const dot = document.getElementById(`dot${i}`);
+dot.className = ‘progress-dot’;
+if (i < current) dot.classList.add(‘done’);
+else if (i === current) dot.classList.add(‘active’);
+}
+}
+
+function buildSummaryBar() {
+const hungerEmoji = { ‘just-me’: ‘🍚’, ‘me-plus’: ‘🍚🍚’, ‘meal-prep’: ‘🍚🍚🍚’ };
+const riceLabel = state.rice === ‘basmati’ ? ‘Basmati’ : ‘Sona Masoori’;
+const methodLabel = state.method === ‘pot’ ? ‘Open Pot’ : ‘Pressure Cooker’;
+
+document.getElementById(‘summary-bar’).innerHTML = `<div class="summary-item"><span>${hungerEmoji[state.hunger]}</span><span>${state.hunger === 'just-me' ? '1 katori' : state.hunger === 'me-plus' ? '1.5 katori' : '2.5 katori'}</span></div> <div class="summary-item"><span>🌾</span><span>${riceLabel}</span></div> <div class="summary-item"><span>${state.method === 'pot' ? '🫕' : '🥘'}</span><span>${methodLabel}</span></div>`;
+}
+
+function renderSuccess() {
+const tips = {
+basmati: ‘Soak basmati for 20 mins before cooking next time — the grains will be even longer and fluffier.’,
+sona: ‘Try adding a tiny pinch of salt to the water next time. Makes Sona Masoori taste noticeably better.’,
+};
+document.getElementById(‘tip-text’).textContent = tips[state.rice] || tips.sona;
+}
+
+function restart() {
+state.hunger = null; state.rice = null; state.method = null;
+state.cooker = null; state.water = null; state.currentStep = 0;
+if (state.timerInterval) clearInterval(state.timerInterval);
+state.timerInterval = null; state.timerRunning = false;
+stopAmbientSounds();
+
+document.querySelectorAll(’.option-btn, .option-card, .rice-card, .water-method-card’).forEach(b => b.classList.remove(‘selected’));
+document.getElementById(‘next0’).disabled = true;
+document.getElementById(‘next1’).disabled = true;
+document.getElementById(‘next2’).disabled = true;
+document.getElementById(‘next3’).disabled = true;
+document.getElementById(‘water-instruction’).style.display = ‘none’;
+document.getElementById(‘finger-video-wrap’).style.display = ‘none’;
+document.getElementById(‘katori-video-wrap’).style.display = ‘none’;
+const fv = document.getElementById(‘finger-video’);
+const kv = document.getElementById(‘katori-video’);
+fv.src = ‘’; delete fv.dataset.loaded;
+kv.src = ‘’; delete kv.dataset.loaded;
+document.getElementById(‘rinse-tip’).style.display = ‘none’;
+document.getElementById(‘cooker-size-wrap’).style.display = ‘none’;
+
+goTo(0);
+}
+</script>
+
+</body>
+</html>
