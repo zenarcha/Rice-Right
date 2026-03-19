@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Rice, Right! 🍚</title>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Fredoka+One&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="app">
+
+  <div class="header">
+    <div style="display:flex; align-items:center; justify-content:center; gap:12px; position:relative;">
+      <h1>🍚 Rice, Right!</h1>
+      <button id="mute-btn" onclick="toggleMute()" title="Toggle sound" style="
+        position:absolute; right:0; top:50%; transform:translateY(-50%);
+        background:white; border:2.5px solid var(--border); border-radius:50%;
+        width:40px; height:40px; font-size:18px; cursor:pointer;
+        display:flex; align-items:center; justify-content:center;
+        box-shadow:0 2px 8px rgba(0,0,0,0.08); transition:all 0.2s;
+      ">🔊</button>
+    </div>
+    <p>No more mushy rice, Arjun. Promise.</p>
+  </div>
+
+  <div class="progress-wrap" id="progressBar">
+    <div class="progress-dot active" id="dot0"></div>
+    <div class="progress-dot" id="dot1"></div>
+    <div class="progress-dot" id="dot2"></div>
+    <div class="progress-dot" id="dot3"></div>
+    <div class="progress-dot" id="dot4"></div>
+    <div class="progress-dot" id="dot5"></div>
+  </div>
+
+  <!-- ===== SCREEN 0: HUNGER ===== -->
+
+  <div class="screen active" id="screen0">
+    <div class="card">
+      <div class="screen-title">How hungry are you? 🤤</div>
+      <div class="screen-sub">We'll figure out how much rice to take</div>
+      <div class="options" id="hunger-options">
+        <button class="option-btn" onclick="selectOption('hunger', 'just-me', this)">
+          <span class="option-emoji">🍚</span>
+          <div class="option-text">
+            <div class="option-label">Just me, normal hungry</div>
+            <div class="option-hint">1 katori raw rice → enough for 1 meal</div>
+          </div>
+        </button>
+        <button class="option-btn" onclick="selectOption('hunger', 'me-plus', this)">
+          <span class="option-emoji">🍚🍚</span>
+          <div class="option-text">
+            <div class="option-label">Me + a little extra</div>
+            <div class="option-hint">1.5 katori → lunch leftover sorted too</div>
+          </div>
+        </button>
+        <button class="option-btn" onclick="selectOption('hunger', 'meal-prep', this)">
+          <span class="option-emoji">🍚🍚🍚</span>
+          <div class="option-text">
+            <div class="option-label">Meal prep, 2–3 days</div>
+            <div class="option-hint">2.5 katori → fridge is your friend</div>
+          </div>
+        </button>
+      </div>
+    </div>
+    <button class="next-btn" id="next0" disabled onclick="goTo(1)">Next →</button>
+  </div>
+
+  <!-- ===== SCREEN 1: RICE TYPE ===== -->
+
+  <div class="screen" id="screen1">
+    <button class="back-btn" onclick="goTo(0)">← Back</button>
+    <div class="card">
+      <div class="screen-title">What rice do you have? 🌾</div>
+      <div class="screen-sub">Pick by look, not by name — totally fine</div>
+      <div class="options" id="rice-options">
+        <button class="rice-card" onclick="selectOption('rice', 'basmati', this)">
+          <div class="rice-visual" style="background:#FFF8E1;">
+            <svg width="52" height="52" viewBox="0 0 52 52">
+              <ellipse cx="26" cy="26" rx="5" ry="14" fill="#F5DEB3" stroke="#C8A96E" stroke-width="1.5"/>
+              <ellipse cx="14" cy="22" rx="4" ry="12" fill="#F5DEB3" stroke="#C8A96E" stroke-width="1.5" transform="rotate(-15 14 22)"/>
+              <ellipse cx="38" cy="30" rx="4" ry="12" fill="#F5DEB3" stroke="#C8A96E" stroke-width="1.5" transform="rotate(15 38 30)"/>
+            </svg>
+          </div>
+          <div class="option-text">
+            <div class="option-label">Long & thin grains</div>
+            <div class="option-hint">Probably Basmati — the tall thin one, smells nice when cooking</div>
+          </div>
+        </button>
+        <button class="rice-card" onclick="selectOption('rice', 'sona', this)">
+          <div class="rice-visual" style="background:#F0F4FF;">
+            <svg width="52" height="52" viewBox="0 0 52 52">
+              <ellipse cx="26" cy="26" rx="7" ry="10" fill="#E8E8D8" stroke="#B8B89A" stroke-width="1.5"/>
+              <ellipse cx="14" cy="20" rx="6" ry="9" fill="#E8E8D8" stroke="#B8B89A" stroke-width="1.5" transform="rotate(-10 14 20)"/>
+              <ellipse cx="38" cy="33" rx="6" ry="9" fill="#E8E8D8" stroke="#B8B89A" stroke-width="1.5" transform="rotate(10 38 33)"/>
+            </svg>
+          </div>
+          <div class="option-text">
+            <div class="option-label">Short & slightly opaque</div>
+            <div class="option-hint">Sona Masoori / Ponni — common in South Indian homes</div>
+          </div>
+        </button>
+        <button class="rice-card" onclick="selectOption('rice', 'sona', this)">
+          <div class="rice-visual" style="background:#F5F5F5; font-size:28px;">📦</div>
+          <div class="option-text">
+            <div class="option-label">Whatever mom packed</div>
+            <div class="option-hint">We'll use the safe default — works for most Indian rice</div>
+          </div>
+        </button>
+        <button class="rice-card" onclick="selectOption('rice', 'sona', this)">
+          <div class="rice-visual" style="background:#F5F5F5; font-size:28px;">🤷</div>
+          <div class="option-text">
+            <div class="option-label">Store brand / not sure</div>
+            <div class="option-hint">No worries — safe default has you covered</div>
+          </div>
+        </button>
+      </div>
+    </div>
+    <button class="next-btn" id="next1" disabled onclick="goTo(2)">Next →</button>
+  </div>
+
+  <!-- ===== SCREEN 2: COOKING METHOD ===== -->
+
+  <div class="screen" id="screen2">
+    <button class="back-btn" onclick="goTo(1)">← Back</button>
+    <div class="card">
+      <div class="screen-title">How are you cooking? 🔥</div>
+      <div class="screen-sub">Both work — pick what you have</div>
+      <div class="options-grid" id="method-options">
+        <div class="option-card" onclick="selectOption('method', 'pot', this)">
+          <span class="big-emoji">🫕</span>
+          <div class="card-label">Open Pot</div>
+          <div class="card-hint">Easier to watch<br>~20 mins</div>
+        </div>
+        <div class="option-card" onclick="selectOption('method', 'cooker', this)">
+          <span class="big-emoji">🥘</span>
+          <div class="card-label">Pressure Cooker</div>
+          <div class="card-hint">Faster<br>~10 mins</div>
+        </div>
+      </div>
+
+```
+  <!-- Cooker size — only shows if pressure cooker selected -->
+  <div id="cooker-size-wrap" style="display:none; margin-top:16px;">
+    <div style="font-weight:800; font-size:14px; margin-bottom:10px;">What size is your cooker?</div>
+    <div class="options-grid" id="cooker-options">
+      <div class="option-card" onclick="selectOption('cooker', 'small', this)">
+        <span class="big-emoji" style="font-size:28px;">🥘</span>
+        <div class="card-label">Small (2L)</div>
+        <div class="card-hint">Fits 1–2 portions</div>
+      </div>
+      <div class="option-card" onclick="selectOption('cooker', 'medium', this)">
+        <span class="big-emoji">🥘</span>
+        <div class="card-label">Medium (3–5L)</div>
+        <div class="card-hint">Standard home size</div>
+      </div>
+    </div>
+  </div>
+</div>
+<button class="next-btn" id="next2" disabled onclick="goTo(3)">Next →</button>
+```
+
+  </div>
+
+  <!-- ===== SCREEN 3: WATER ===== -->
+
+  <div class="screen" id="screen3">
+    <button class="back-btn" onclick="goTo(2)">← Back</button>
+    <div class="card">
+      <div class="screen-title">How much water? 💧</div>
+      <div class="screen-sub">Pick the method you know — we'll explain both</div>
+
+```
+  <div class="water-methods">
+    <!-- FINGER METHOD -->
+    <div class="water-method-card" id="water-finger" onclick="selectWater('finger')">
+      <svg width="80" height="80" viewBox="0 0 80 80">
+        <!-- Pot -->
+        <rect x="15" y="45" width="50" height="28" rx="6" fill="#E8D5B7" stroke="#C8A96E" stroke-width="2"/>
+        <rect x="12" y="42" width="56" height="6" rx="3" fill="#C8A96E"/>
+        <!-- Water inside pot -->
+        <rect x="17" y="51" width="46" height="16" rx="3" fill="#93C5FD" opacity="0.6"/>
+        <!-- Rice at bottom -->
+        <rect x="19" y="60" width="42" height="6" rx="2" fill="#F5DEB3" opacity="0.8"/>
+        <!-- Water level line -->
+        <line x1="17" y1="55" x2="63" y2="55" stroke="#3B82F6" stroke-width="1.5" stroke-dasharray="3,2"/>
+        <!-- Finger -->
+        <rect x="36" y="18" width="10" height="38" rx="5" fill="#FBBF24" stroke="#F59E0B" stroke-width="1.5"/>
+        <ellipse cx="41" cy="18" rx="5" ry="4" fill="#FBBF24" stroke="#F59E0B" stroke-width="1.5"/>
+        <!-- Knuckle line -->
+        <line x1="33" y1="44" x2="49" y2="44" stroke="#EF4444" stroke-width="2" stroke-dasharray="4,2"/>
+        <text x="50" y="47" font-size="8" fill="#EF4444" font-weight="bold">← fill here</text>
+      </svg>
+      <h4>👆 Finger Method</h4>
+      <p>Like mom taught</p>
+    </div>
+
+    <!-- KATORI METHOD -->
+    <div class="water-method-card" id="water-katori" onclick="selectWater('katori')">
+      <svg width="80" height="80" viewBox="0 0 80 80">
+        <!-- Pot -->
+        <rect x="8" y="48" width="42" height="25" rx="6" fill="#E8D5B7" stroke="#C8A96E" stroke-width="2"/>
+        <rect x="5" y="45" width="48" height="6" rx="3" fill="#C8A96E"/>
+        <!-- Water in pot -->
+        <rect x="10" y="54" width="38" height="13" rx="3" fill="#93C5FD" opacity="0.6"/>
+        <!-- Rice in pot -->
+        <rect x="12" y="62" width="34" height="5" rx="2" fill="#F5DEB3" opacity="0.8"/>
+        <!-- Katori pouring -->
+        <ellipse cx="62" cy="28" rx="14" ry="10" fill="#E8D5B7" stroke="#C8A96E" stroke-width="2"/>
+        <ellipse cx="62" cy="24" rx="14" ry="6" fill="#93C5FD" opacity="0.7"/>
+        <!-- Water stream -->
+        <path d="M52 33 Q45 42 35 50" stroke="#3B82F6" stroke-width="2.5" fill="none" stroke-linecap="round" opacity="0.7"/>
+        <!-- x2 label -->
+        <text x="52" y="20" font-size="11" fill="#1D4ED8" font-weight="bold">x 2</text>
+      </svg>
+      <h4>🥛 Katori Method</h4>
+      <p>Same cup, double water</p>
+    </div>
+  </div>
+
+  <!-- Instruction panel -->
+  <div class="water-instruction" id="water-instruction" style="display:none;">
+    <h4 id="water-inst-title"></h4>
+    <p id="water-inst-body"></p>
+    <p class="why" id="water-inst-why"></p>
+  </div>
+
+  <!-- Finger method video -->
+  <div id="finger-video-wrap" style="display:none; margin-top:14px; border-radius:16px; overflow:hidden; border:2.5px solid #3B82F6; box-shadow:0 4px 20px rgba(59,130,246,0.2);">
+    <iframe src="https://player.cloudinary.com/embed/?cloud_name=ddgaysorz&public_id=finger-method_wpf128&autoplay=true&loop=true&muted=true&controls=false"
+      style="width:100%; height:220px; border:none; display:block;"
+      allow="autoplay; fullscreen" allowfullscreen></iframe>
+    <div style="padding:8px 12px; background:#EFF6FF; font-size:12px; font-weight:700; color:#1D4ED8;">
+      👆 Touch the rice surface — fill to your first knuckle
+    </div>
+  </div>
+
+  <!-- Katori method video -->
+  <div id="katori-video-wrap" style="display:none; margin-top:14px; border-radius:16px; overflow:hidden; border:2.5px solid #118AB2; box-shadow:0 4px 20px rgba(17,138,178,0.2);">
+    <div style="width:100%;height:80px;display:flex;align-items:center;
+      justify-content:center;font-size:32px;">🥛</div>
+    <div style="padding:8px 12px; background:#E0F2FE; font-size:12px; font-weight:700; color:#075985;">
+      🥛 Same katori for rice → use it to measure water too
+    </div>
+  </div>
+
+  <!-- Rinse tip -->
+  <div id="rinse-tip" style="display:none; margin-top:12px; padding:12px 14px; background:#FFF8F0; border:2px solid var(--border); border-radius:14px;">
+    <div style="font-weight:800; font-size:13px; margin-bottom:4px;">🚿 Rinse your rice?</div>
+    <div id="rinse-body" style="font-size:13px; font-weight:600; color:#555; line-height:1.6;"></div>
+  </div>
+
+</div>
+<button class="next-btn" id="next3" disabled onclick="goTo(4)">Let's Cook! 🔥</button>
+```
+
+  </div>
+
+  <!-- ===== SCREEN 4: COOKING STEPS ===== -->
+
+  <div class="screen" id="screen4">
+    <button class="back-btn" onclick="goTo(3)">← Back</button>
+
+```
+<!-- Summary bar -->
+<div class="summary-bar" id="summary-bar"></div>
+
+<!-- Step card -->
+<div class="step-card" id="step-card">
+  <div class="step-number" id="step-number">STEP 1 OF 4</div>
+  <div class="step-title" id="step-title"></div>
+
+  <!-- Flame label badge -->
+  <div id="flame-badge" style="margin-bottom:8px; min-height:36px;"></div>
+
+  <!-- Pot + stove visual (rendered by JS) -->
+  <div id="pot-visual" style="text-align:center; margin:4px 0 8px; display:none;"></div>
+
+  <div class="step-desc" id="step-desc"></div>
+  <div class="warning-box" id="step-warning" style="display:none;">
+    <span>⚠️</span><span id="step-warning-text"></span>
+  </div>
+</div>
+
+<!-- Timer -->
+<div class="card" id="timer-card" style="text-align:center; display:none;">
+  <div class="timer-label">TIME REMAINING</div>
+  <div class="timer-display" id="timer-display">00:00</div>
+  <div class="timer-controls">
+    <button class="timer-btn secondary" onclick="resetTimer()">↺ Reset</button>
+    <button class="timer-btn primary" id="timer-toggle" onclick="toggleTimer()">▶ Start</button>
+  </div>
+</div>
+
+<button class="next-btn" id="next-step-btn" onclick="nextStep()">Next Step →</button>
+```
+
+  </div>
+
+  <!-- ===== SCREEN 5: SUCCESS ===== -->
+
+  <div class="screen" id="screen5">
+    <div class="card">
+      <div class="success-screen">
+        <span class="success-emoji">🍚</span>
+        <div class="success-title">Perfect. You made rice.</div>
+        <div class="success-sub">Fluff gently with a fork. Don't stir.<br>Serve within 20 mins for best texture.</div>
+
+```
+    <div class="tip-box" id="next-time-tip">
+      <h4>💡 Next time tip</h4>
+      <p id="tip-text"></p>
+    </div>
+
+    <div style="background:#FFF0F0; border:2px solid #FFB3B3; border-radius:14px; padding:14px; margin:12px 0; text-align:left;">
+      <div style="font-weight:800; font-size:14px; color:#C0392B; margin-bottom:4px;">🚫 Don't lift the lid yet!</div>
+      <div style="font-size:13px; font-weight:600; color:#555;">Wait 5 full minutes before opening. The trapped steam is still finishing the job.</div>
+    </div>
+  </div>
+</div>
+<button class="restart-btn" onclick="restart()">🔄 Cook Again</button>
+```
+
+  </div>
+
+</div>
+
+<script src="app.js"></script>
+
+</body>
+</html>
